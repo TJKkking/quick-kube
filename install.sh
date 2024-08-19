@@ -52,7 +52,11 @@ else
     grep -qxF 'function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }' "$rc_file" || echo 'function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }' >> "$rc_file"
     
     echo "Shell configuration updated successfully."
-    echo "Please restart your terminal or run 'source $rc_file' to apply the changes."
+    
+    # 立即加载新的配置文件
+    echo "Applying the new configuration..."
+    source "$rc_file"
+    echo "Configuration applied. Your terminal is now ready."
 fi
 
 echo "kubectl aliases and function setup completed."
