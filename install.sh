@@ -30,6 +30,23 @@ else
     exit 1
 fi
 
+# 检查是否安装了 kubectl
+if ! command -v kubectl &> /dev/null; then
+    echo "kubectl not found. Installing kubectl..."
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    chmod +x ./kubectl
+    sudo mv ./kubectl /usr/local/bin/kubectl
+
+    if [ $? -eq 0 ]; then
+        echo "kubectl installed successfully."
+    else
+        echo "Error: Failed to install kubectl."
+        exit 1
+    fi
+else
+    echo "kubectl is already installed."
+fi
+
 # 下载 .kubectl_aliases 文件
 echo "Downloading .kubectl_aliases..."
 if curl -Lo ~/.kubectl_aliases https://raw.githubusercontent.com/ahmetb/kubectl-aliases/master/.kubectl_aliases; then
